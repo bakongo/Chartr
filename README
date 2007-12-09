@@ -1,0 +1,13 @@
+Chartr
+=======
+
+chartr helps you create charts using the google chart API.
+
+Example
+=======
+
+Chartr.make_simple_line_chart [10,2,5,6,9,2,2,2], 
+	                          [1,2,3,4,5,6,7,8],
+	                          'Stuff to chart', '600x200'%>
+	
+Copyright (c) 2007 [Daniel Wiesmann], released under the MIT license
