@@ -19,7 +19,7 @@ class Chartr
   def self.make_simple_line_chart(values, labels, title, size="200x100")
     
     image_str =<<-START
-    <img src="http://chart.apis.google.com/chart?chs=#{size}&amp;chd=#{simple_encode(values, values.max)}&amp;cht=lc&amp;chxt=x,y&amp;chxl=0:|#{labels.join('|')}|1:||#{values.max}" alt="#{title}" />
+    <img src="http://chart.apis.google.com/chart?chs=#{size}&amp;chd=#{simple_encode(values)}&amp;cht=lc&amp;chxt=x,y&amp;chxl=0:|#{labels.join('|')}|1:||#{values.max}" alt="#{title}" />
     START
 
     image_str

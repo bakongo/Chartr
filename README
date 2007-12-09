@@ -1,7 +1,18 @@
 Chartr
 =======
 
-chartr helps you create charts using the google chart API.
+The chartr plugin helps you create charts using the google chart API.
+
+The Google Chart API requires arguments that look roughly like this:
+
+for size: chs=200x125
+values :  chd=s:4gsGr6a0
+chart type:  cht=lc
+label types: chxt=x,y
+labels: chxl=0:|Mar|Apr|May|June|July|1:||50+Kb
+
+The plugin helps generate these values and format them correctly.
+
 
 Example
 =======
@@ -10,5 +21,7 @@ Chartr.make_simple_line_chart [7,5,4,3,3,2,4],
 	                          ['mon','tue','wed','thu','fri','sat','sun'],
 	                          'cups of coffee per day', 
 	                          '200x100'%>
+
+
 
 Copyright (c) 2007 [Daniel Wiesmann], released under the MIT license
