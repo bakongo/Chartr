@@ -3,6 +3,8 @@ Chartr
 
 The chartr plugin helps you create charts using the google chart API.
 
+You can make line charts with a single line or multiple lines. 
+
 The Google Chart API requires arguments that look roughly like this:
 
 for size: chs=200x125
@@ -13,6 +15,9 @@ labels: chxl=0:|Mar|Apr|May|June|July|1:||50+Kb
 
 The plugin helps generate these values and format them correctly.
 
+Colors for graphs with multiple lines alternate between 
+['FF0000', '00FF00', '0000FF', '000000'], and a legend labels array is also required.
+
 
 Example
 =======
@@ -22,6 +27,12 @@ Chartr.make_simple_line_chart [7,5,4,3,3,2,4],
 	                          'cups of coffee per day', 
 	                          '200x100'%>
 
+
+Chartr.make_multiple_line_chart [[7,5,4,3,3,2,4], [1,2,0,1,3,1]]
+		                      ['mon','tue','wed','thu','fri','sat','sun'],
+							  ['coffee', 'wine'],
+							  'cups of stuff per day', 
+							  '200x100'%>
 
 
 Copyright (c) 2007 [Daniel Wiesmann], released under the MIT license
