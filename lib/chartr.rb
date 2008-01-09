@@ -2,9 +2,9 @@ class Chartr
 
   COLORS = ['FF0000', '00FF00', '0000FF', '000000']
   
-  def self.simple_encode(values)
+  def self.simple_encode(values, max_value = nil)
     simple_values = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    max_value = values.max
+    max_value = values.max unless max_value
     chart_data = [""]
     values.each do |v|
       val = Float(v)
@@ -16,7 +16,6 @@ class Chartr
     end
     return chart_data.join('');
   end
-
 
   def self.make_simple_line_chart(values, labels, title, size="200x100")
     
@@ -33,9 +32,16 @@ class Chartr
     data_sets = []
     set_colors = []
     max = 0
+    # find the max value, which we provide to simple encode 
+    # so that all data is graphed with the same max. graphs don't
+    # make sense otherwise
     value_sets.each_with_index do |value_set, index|
-      data_sets << simple_encode(value_set)
-      max = value_set.max
+      max = value_set.max if value_set.max > max
+    end
+    
+    value_sets.each_with_index do |value_set, index|
+      data_sets << simple_encode(value_set, max)
+      max = value_set.max if value_set.max > max
       set_colors << COLORS[index % COLORS.length]
     end
     
@@ -48,7 +54,5 @@ class Chartr
 
     image_str
   end
-
-  
   
 end
