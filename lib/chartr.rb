@@ -39,7 +39,6 @@ class Chartr
     
     value_sets.each_with_index do |value_set, index|
       data_sets << simple_encode(value_set, max)
-      max = value_set.max if value_set.max > max
       set_colors << COLORS[index % COLORS.length]
     end
     
