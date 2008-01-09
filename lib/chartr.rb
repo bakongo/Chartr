@@ -35,9 +35,7 @@ class Chartr
     # find the max value, which we provide to simple encode 
     # so that all data is graphed with the same max. graphs don't
     # make sense otherwise
-    value_sets.each_with_index do |value_set, index|
-      max = value_set.max if value_set.max > max
-    end
+    max = value_sets.flatten.max
     
     value_sets.each_with_index do |value_set, index|
       data_sets << simple_encode(value_set, max)
