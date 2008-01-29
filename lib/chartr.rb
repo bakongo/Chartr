@@ -17,17 +17,18 @@ class Chartr
     return chart_data.join('');
   end
 
-  def self.make_simple_line_chart(values, labels, title, size="200x100")
+  def self.make_simple_line_chart(values, labels, title, size="200x100", max_y = nil)
     
+    max = max_y || values.max
     image_str =<<-START
-    <img src="http://chart.apis.google.com/chart?chs=#{size}&amp;chd=s:#{simple_encode(values)}&amp;cht=lc&amp;chxt=x,y&amp;chxl=0:|#{labels.join('|')}|1:||#{values.max}" alt="#{title}" />
+    <img src="http://chart.apis.google.com/chart?chs=#{size}&amp;chd=s:#{simple_encode(values, max)}&amp;cht=lc&amp;chxt=x,y&amp;chxl=0:|#{labels.join('|')}|1:||#{max}" alt="#{title}" />
     START
 
     image_str
   end
   
   
-  def self.make_multiple_line_chart(value_sets, labels, legend_labels, title, size="200x100")
+  def self.make_multiple_line_chart(value_sets, labels, legend_labels, title, size="200x100", max_y = nil)
     
     data_sets = []
     set_colors = []
@@ -35,7 +36,7 @@ class Chartr
     # find the max value, which we provide to simple encode 
     # so that all data is graphed with the same max. graphs don't
     # make sense otherwise
-    max = value_sets.flatten.max
+    max = max_y || value_sets.flatten.max
     
     value_sets.each_with_index do |value_set, index|
       data_sets << simple_encode(value_set, max)
