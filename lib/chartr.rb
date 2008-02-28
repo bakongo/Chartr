@@ -1,6 +1,6 @@
 class Chartr
 
-  COLORS = ['FF0000', '00FF00', '0000FF', '000000', 'EAD5FC', 'FECF3D', '8F8F94']
+  COLORS = ['FF0000', '00FF00', '0000FF', '000000', 'EAD5FC', 'FECF3D', '8F8F94', 'FFFF00', '00FFFF', '3F3F3F', 'D0D0D0']
   
   def self.simple_encode(values, max_value = nil)
     simple_values = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
