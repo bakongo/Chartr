@@ -28,42 +28,51 @@ class Chartr
   end
   
   
-  def self.make_multiple_line_chart(value_sets, labels, legend_labels, title, size="200x100", max_y = nil)
+  # value sets: an array of arrays of values to be graphed
+  #
+  #
+  def self.make_multiple_line_chart(value_sets, labels, legend_labels, title, size="200x100", max_y = nil, colors = nil)
+
+    chart_args = Chartr.process_multi_data_set(value_sets, labels, legend_labels, size, max_y, colors)
+    chart_type = "cht=lc"
+    chart_args << chart_type
     
-    data_sets = []
-    set_colors = []
-    max = 0
-    # find the max value, which we provide to simple encode 
-    # so that all data is graphed with the same max. graphs don't
-    # make sense otherwise
-    max = max_y || value_sets.flatten.max
-    
-    value_sets.each_with_index do |value_set, index|
-      data_sets << simple_encode(value_set, max)
-      set_colors << COLORS[index % COLORS.length]
-    end
-    
-    data = "&amp;chd=s:#{data_sets.join(',')}"
-    colors ="&amp;chco=#{set_colors.join(',')}"
-    legend = "&amp;chdl=#{legend_labels.join('|')}"
-    x_axis = "&amp;chxt=x,y&amp;chxl=0:|#{labels.join('|')}|1:|0|#{max}"
+    google_chart_string = chart_args.join("&amp;")
+        
     image_str =<<-START
-    <img src="http://chart.apis.google.com/chart?chs=#{size}&amp;#{data}#{legend}#{colors}&amp;cht=lc&amp;" alt="#{title}" />
+    <img src="http://chart.apis.google.com/chart?#{google_chart_string}" alt="#{title}" />
     START
 
     image_str
   end
   
   
-  # make a stacked bar chart
+  # make a stacked bar chart. need to provide multiple sets of data to graph
   #
   #
   # the colors array is used if provided. the color used will cycle through the values in this array.
   def self.make_stacked_bar_chart(value_sets, labels, legend_labels, title, size="200x100", max_y = nil, colors = nil)
     
+    chart_args = Chartr.process_multi_data_set(value_sets, labels, legend_labels, size, max_y, colors)
+    chart_type = "cht=bvs"
+    chart_args << chart_type
+    google_chart_string = chart_args.join("&amp;")
+
+    
+    image_str =<<-START
+    <img src="http://chart.apis.google.com/chart?#{google_chart_string}" alt="#{title}" />
+    START
+
+    image_str
+  end
+  
+  protected 
+  
+  def self.process_multi_data_set(value_sets, labels, legend_labels, size, max_y, colors)
     data_sets = []
     set_colors = []
     max = 0
+    
     # find the max value, which we provide to simple encode 
     # so that all data is graphed with the same max. graphs don't
     # make sense otherwise
@@ -71,21 +80,26 @@ class Chartr
     
     value_sets.each_with_index do |value_set, index|
       data_sets << simple_encode(value_set, max)
-      if colors
-        set_colors << colors[index % colors.length]   
-      else
-        set_colors << COLORS[index % COLORS.length]
-      end
+      set_colors << Chartr.get_color(index, colors)
     end
 
-    data = "&amp;chd=s:#{data_sets.join(',')}"
-    colors ="&amp;chco=#{set_colors.join(',')}"
-    legend = "&amp;chdl=#{legend_labels.join('|')}"
-    image_str =<<-START
-    <img src="http://chart.apis.google.com/chart?chs=#{size}&amp;#{data}#{legend}#{colors}&amp;cht=bvs&amp;chxt=x,y&amp;chxl=0:|#{labels.join('|')}|1:||#{max}" alt="#{title}" />
-    START
-
-    image_str
+    data = "chd=s:#{data_sets.join(',')}"
+    colors ="chco=#{set_colors.join(',')}"
+    legend = "chdl=#{legend_labels.join('|')}"
+    legends = "chxt=x,y"
+    x_axis = "chxl=0:|#{labels.join('|')}|1:||#{max}"
+    size = "chs=#{size}"
+    
+    [size, data, legend, legends, x_axis, colors]
+  end
+  
+  
+  def self.get_color(index, colors)
+    if colors
+      colors[index % colors.length]   
+    else
+      COLORS[index % COLORS.length]
+    end
   end
   
 end
