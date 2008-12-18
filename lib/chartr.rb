@@ -86,7 +86,7 @@ class Chartr
 
     data = "chd=s:#{data_sets.join(',')}"
     colors ="chco=#{set_colors.join(',')}"
-    legend = "chdl=#{legend_labels.join('|')}"
+    legend = "chdl=#{legend_labels.join('|')}" unless legend_labels.length == 0
     legends = "chxt=x,y"
     x_axis = "chxl=0:|#{labels.join('|')}|1:||#{max}"
     size = "chs=#{size}"
