@@ -5,6 +5,7 @@ class Chartr
   def self.simple_encode(values, max_value = nil)
     simple_values = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     max_value = values.max unless max_value
+    max_value = 1 if max_value == 0
     chart_data = [""]
     values.each do |v|
       val = Float(v)
